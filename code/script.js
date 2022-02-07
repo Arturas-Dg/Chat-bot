@@ -2,14 +2,26 @@
 const chat = document.getElementById('chat');
 const inputWrapper = document.getElementById("input-wrapper");
 const form = document.getElementById("name-form");
-const userInputValue = document.getElementById("name-input").value;
-
-let step = 1;
-
+const nameInput = document.getElementById("name-input");
 // Global variables, if you need any, declared here
-
+let question = 1;
 // Functions declared here
+const userReply = () => {
+  showMessage(`${nameInput.value}`, "user")
+}
+const botReply = (botReply) => {
+  showMessage(botReply, "bot");
+}
 
+const reason = () => {
+  inputWrapper.innerHTML  = `
+  <button class="send-btn" id="teeth-problem" type="submit">Problems with teeth</button>
+
+  <button class="send-btn" id="eye-problem" type="submit">Problems with eyes</button>
+
+  `
+}
+const clearInput = () =>  nameInput.value=""
 // This function will add a chat bubble in the correct place based on who the sender is
 const showMessage = (message, sender) => {
   if (sender === 'user') {
@@ -37,23 +49,29 @@ const showMessage = (message, sender) => {
 
 // Starts here
 const greeting = () => {
-  showMessage(`Hello there, What's your name?`, 'bot');
-  // Just to check it out, change 'bot' to 'user' here 👆
+  showMessage(`Hello there, What's your name?`, "bot");
 }
+  // Just to check it out, change 'bot' to 'user' here 👆
 
-// Set up your eventlisteners here
-form.addEventListener("submit",(event) => {
-  event.preventDefault();
 
-  if (Number(userInputValue) === 10) {
-    showMessage(`${userInputValue}`, 'user');
-    console.log ("hello")
-  }
-});
-// When website loaded, chatbot asks first question.
-// normally we would invoke a function like this:
-// greeting()
-// But if we want to add a little delay to it, we can wrap it in a setTimeout:
-// setTimeout(functionName, timeToWaitInMilliSeconds)
-// This means the greeting function will be called one second after the website is loaded.
+  //EVENTLISTENER
+    form.addEventListener("submit" , (event) => {
+    event.preventDefault();
+    const inputValue = nameInput.value;
+    userReply();
+    clearInput();
+    botReply(`So ${inputValue}, what problems do you have?`)
+    reason();
+  })
+
+
+// Conditional
+
+// Timeout when website loads until first question
 setTimeout(greeting, 1000);
+
+// //SEND button pressed
+// sendBtn.addEventListener('click', (event) => {
+//   event.preventDefault();
+//   nextQuestion(input.value);
+// });
