@@ -49,19 +49,23 @@ const showMessage = (message, sender) => {
 // Starts here
 const greeting = () => {
   question  = 1;
-  showMessage(`Hello there, What's your name?`, "bot");
+  showMessage(`Hello this is automatical chat bot, What's your name?`, "bot");
 }
   // Just to check it out, change 'bot' to 'user' here 👆
 
 const questionSequence = (message) => {
   if(question === 1) {
     userReply();
-    selectProblem(message);
+    setTimeout(() => selectProblem(message), 1000)
   } else if (question === 2) {
     showMessage(message, "user");
-    problemSolve(message);
+    setTimeout(() => problemSolve(message), 1000);
   } else if (question === 3) {
     showMessage(message, "user");
+    setTimeout(() =>  administratorContact(message), 1000);
+  } else if (question === 4) {
+    showMessage(message, "user");
+    setTimeout(() =>  goodbyeMessage(message), 1000);
   }
 } 
 
@@ -71,7 +75,7 @@ const selectProblem = () => {
 
   question = 2;
 
-  botReply(`So ${nameInput.value}, what's the problem?`);
+  botReply(`So ${nameInput.value}, what problems have you got?`);
 
   inputWrapper.innerHTML = `
     <button id="eyeBtn">Sight problems</button>
@@ -101,21 +105,61 @@ const problemSolve = (message) => {
     document.getElementById("sensitiveBtn").addEventListener("click", () => {questionSequence("Sensitive teeth")});
 
   } else if (message === "Sight problems") {
+    console.log(message)
       question = 3;
       botReply(`And what have happened to them?`);
 
       inputWrapper.innerHTML = `
-      <button id="eyeBtn">Sensitite eye</button>
-      <button id="teethBtn">Infected eye</button>
+      <button id="dryBtn">Dry eye</button>
+      <button id="defectBtn">Defected eye</button>
     ` 
+
+    document.getElementById("dryBtn").addEventListener("click", () => {questionSequence("Dry eye")});
+    document.getElementById("defectBtn").addEventListener("click", () => {questionSequence("Defected eye")});
+
   } else if (message === "Other problems") {
       botReply("Sorry, we only provide services for dentistry and opthamology.")
   }
 };
 
+  const administratorContact = (message) => {
+    question = 4;
+    console.log(message);
 
+    if (message === "Broken teeth") {
+      setTimeout(() => botReply(`Please write your number down below(numbers only), and we'll call you about your ${message}.`), 1000);
+    } 
+    else if (message === "Sensitive teeth") {
+      setTimeout(() => botReply(`Please write your number down below(numbers only), and we'll call you about your ${message}.`), 1000);
+    }
+    else if (message === "Dry eye") {
+      setTimeout(() => botReply(`Please write your number down below(numbers only), and we'll call you about your ${message}.`), 1000);
+    }
+    else if (message === "Defected eye") {
+      setTimeout(() => botReply(`Please write your number down below(numbers only), and we'll call you about your ${message}.`), 1000);
+    }
+    
+    
+      inputWrapper.innerHTML= `
+    <form id="number-form">
+      <input id="number-input" type="text">
+      <button class="number-btn" id="number-btn" type="submit">
+        Send
+      </button>
+    `
 
-
+    const userNumber = document.getElementById("number-input");
+    const userNumberBtn = document.getElementById("number-btn");
+      userNumberBtn.addEventListener("click", (event) => {
+        event.preventDefault();
+        questionSequence(userNumber.value);
+      })
+  }
+  
+  const goodbyeMessage = () => {
+    botReply("All done, please wait  for a call from our administrator, they will contact you shortly.")
+  }
+  
   //EVENTLISTENER
     form.addEventListener("submit" , (event) => {
     event.preventDefault();
