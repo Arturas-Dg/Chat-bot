@@ -35,7 +35,7 @@ const showMessage = (message, sender) => {
   } else if (sender === 'bot') {
     chat.innerHTML += `
       <section class="bot-msg">
-        <img src="assets/bot.png" alt="Bot" />
+        <img src="assets/bot-logo.jpg" alt="Bot" />
         <div class="bubble bot-bubble">
           <p>${message}</p>
         </div>
@@ -60,8 +60,10 @@ const questionSequence = (message) => {
   } else if (question === 2) {
     showMessage(message, "user");
     problemSolve(message);
+  } else if (question === 3) {
+    showMessage(message, "user");
   }
-}
+} 
 
 // second question
 
@@ -74,33 +76,44 @@ const selectProblem = () => {
   inputWrapper.innerHTML = `
     <button id="eyeBtn">Sight problems</button>
     <button id="teethBtn">Teeth problems</button>
+    <button id="otherBtn">Other problems</button>
   `
 
-  document.getElementById("eyeBtn").addEventListener("click", () => {questionSequence("Sight problem")});
-  document.getElementById("teethBtn").addEventListener("click", () => {questionSequence("Teeth problem")});
+  document.getElementById("eyeBtn").addEventListener("click", () => {questionSequence("Sight problems")});
+  document.getElementById("teethBtn").addEventListener("click", () => {questionSequence("Teeth problems")});
+  document.getElementById("otherBtn").addEventListener("click", () => {questionSequence("Other problems")});
 };
 
   
 
 const problemSolve = (message) => {
-  question = 3;
 
-  botReply(`And what have happened to them?`);
+  if (message === "Teeth problems") {
+    question = 3;
+    botReply(`And what have happened to them?`);
 
-
-
-  if (message === "Teeth problem") {
     inputWrapper.innerHTML = `
-    <button id="eyeBtn">Sensitite teeth</button>
-    <button id="teethBtn">Infected teeth</button>
+    <button id="brokenBtn">Broken teeth</button>
+    <button id="sensitiveBtn">Sensitive teeth</button>
   ` 
-  } else if (message === "Sight problem") {
-    inputWrapper.innerHTML = `
-    <button id="eyeBtn">Sensitite eye</button>
-    <button id="teethBtn">Infected eye</button>
-  ` 
+
+    document.getElementById("brokenBtn").addEventListener("click", () => {questionSequence("Broken teeth")});
+    document.getElementById("sensitiveBtn").addEventListener("click", () => {questionSequence("Sensitive teeth")});
+
+  } else if (message === "Sight problems") {
+      question = 3;
+      botReply(`And what have happened to them?`);
+
+      inputWrapper.innerHTML = `
+      <button id="eyeBtn">Sensitite eye</button>
+      <button id="teethBtn">Infected eye</button>
+    ` 
+  } else if (message === "Other problems") {
+      botReply("Sorry, we only provide services for dentistry and opthamology.")
   }
 };
+
+
 
 
   //EVENTLISTENER
